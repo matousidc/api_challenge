@@ -9,7 +9,7 @@ class CountryCreateSerializer(serializers.ModelSerializer):
 
 
 class CountrySerializer(serializers.ModelSerializer):
-    group_id = serializers.IntegerField()
+    group_id = serializers.IntegerField(allow_null=True)
     created_at = serializers.DateTimeField()
 
     class Meta:

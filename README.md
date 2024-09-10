@@ -10,6 +10,7 @@
 ### Comments:
 
 - root url redirected to /countries/
+- country_code max length is 3
 - group_id set as null, left for updating with PUT
 - id - set up as auto-increment
 - versioned also DB for easier set up
