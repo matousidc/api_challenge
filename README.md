@@ -9,6 +9,7 @@
 
 ### Comments:
 
+- used python 3.11
 - root url redirected to /countries/
 - country_code max length is 3
 - group_id set as null, left for updating with PUT
