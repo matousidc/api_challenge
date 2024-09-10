@@ -6,6 +6,7 @@ from .models import Country
 from .serializers import CountrySerializer, CountryCreateSerializer
 
 
+# Defines paginated response
 class CustomPagination(pagination.PageNumberPagination):
     page_size_query_param = 'limit'
     offset_query_param = 'offset'
@@ -25,7 +26,7 @@ class CustomPagination(pagination.PageNumberPagination):
         })
 
 
-# Retrieve, update a specific country by ID
+# Retrieve or update a specific country by ID
 class CountryDetailView(generics.RetrieveUpdateAPIView):
     queryset = Country.objects.all()
     serializer_class = CountrySerializer
@@ -55,7 +56,7 @@ class CountryListView(generics.ListCreateAPIView):
         return CountrySerializer
 
     def get(self, request, *args, **kwargs):
-        queryset = self.get_queryset()
+        queryset = self.get_queryset().order_by('id')
 
         page = self.paginate_queryset(queryset)
         if page:
