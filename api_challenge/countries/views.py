@@ -7,8 +7,8 @@ from .serializers import CountrySerializer, CountryCreateSerializer
 
 
 # Defines paginated response
-class CustomPagination(pagination.PageNumberPagination):
-    page_size_query_param = 'limit'
+class CustomPagination(pagination.LimitOffsetPagination):
+    limit_query_param = 'limit'
     offset_query_param = 'offset'
 
     def get_paginated_response(self, data):
@@ -18,9 +18,9 @@ class CustomPagination(pagination.PageNumberPagination):
                 'previous': self.get_previous_link(),
             },
             'pagination': {
-                'count': self.page.paginator.count,
-                'offset': self.page.start_index(),
-                'limit': self.page.paginator.per_page,
+                'count': self.count,
+                'offset': self.offset,
+                'limit': self.limit,
             },
             'results': data
         })
@@ -58,6 +58,12 @@ class CountryListView(generics.ListCreateAPIView):
     def get(self, request, *args, **kwargs):
         queryset = self.get_queryset().order_by('id')
 
+        # query param
+        country_code = request.query_params.get('country-code')
+        if country_code:
+            queryset = queryset.filter(countryCode=country_code)
+
+        # using pagination
         page = self.paginate_queryset(queryset)
         if page:
             serializer = self.get_serializer(page, many=True)

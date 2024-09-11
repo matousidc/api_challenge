@@ -3,18 +3,21 @@ from .models import Country
 
 
 class CountryCreateSerializer(serializers.ModelSerializer):
+    name = serializers.CharField(required=True, max_length=255)
+    countryCode = serializers.CharField(required=True, max_length=3)
+    
     class Meta:
         model = Country
-        fields = ['name', 'country_code']
+        fields = ['name', 'countryCode']
 
 
 class CountrySerializer(serializers.ModelSerializer):
-    group_id = serializers.IntegerField(allow_null=True)
-    created_at = serializers.DateTimeField()
+    groupId = serializers.IntegerField(allow_null=True)
+    createdAt = serializers.DateTimeField()
 
     class Meta:
         model = Country
-        fields = ['id', 'name', 'country_code', 'created_at', 'group_id']
+        fields = ['id', 'name', 'countryCode', 'createdAt', 'groupId']
 
 
 class LinksSerializer(serializers.Serializer):
